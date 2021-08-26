@@ -3,18 +3,30 @@
 #include "user/user.h"
 
 int main(int argc, char const* argv[]) {
-    int p1[2], p2[2];
-    pipe(p1);
-    pipe(p2);
+    int parent2Child[2], child2Parent[2];
+    pipe(parent2Child);
+    pipe(child2Parent);
     char byte;
     if (fork() == 0) {
-        read(p1[0], &byte, 1);
-        fprintf(1, "%d: received ping\n", getpid());
-        write(p2[1], " ", 1);
+        close(parent2Child[1]);
+        close(child2Parent[0]);
+        
+        read(parent2Child[0], &byte, 1);
+        printf("%d: received ping\n", getpid());
+        write(child2Parent[1], " ", 1);
+
+        close(parent2Child[0]);
+        close(child2Parent[1]);
     } else {
-        write(p1[1], " ", 1);
-        read(p2[0], &byte, 1);
-        fprintf(1, "%d: received pong\n", getpid());
+        close(parent2Child[0]);
+        close(child2Parent[1]);
+
+        write(parent2Child[1], " ", 1);
+        read(child2Parent[0], &byte, 1);
+        printf("%d: received pong\n", getpid());
+
+        close(parent2Child[1]);
+        close(child2Parent[0]);
     }
     exit(0);
 }
