@@ -155,7 +155,9 @@ UPROGS=\
 	$U/_find\
 	$U/_xargs\
 	$U/_uptime\
-
+	$U/_trace\
+	$U/_sysinfotest\
+	
 
 ifeq ($(LAB),trap)
 UPROGS += \
@@ -271,7 +273,7 @@ handin-check:
 
 UPSTREAM := $(shell git remote -v | grep -m 1 "xv6-labs-2020" | awk '{split($$0,a," "); print a[1]}')
 
-tarball: handin-check
+tarball: handin-check\
 	git archive --format=tar HEAD | gzip > lab-$(LAB)-handin.tar.gz
 
 tarball-pref: handin-check
