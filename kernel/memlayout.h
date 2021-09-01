@@ -17,20 +17,22 @@
 // end -- start of kernel page allocation area
 // PHYSTOP -- end RAM used by the kernel
 
-// qemu puts UART registers here in physical memory.
+// UART stands for "Universal Asynchronous Receiver-Transmitter". qemu puts UART registers here in physical memory.
 #define UART0 0x10000000L
+// IRQ stands for "Interrupt ReQuest"
 #define UART0_IRQ 10
 
-// virtio mmio interface
+// VIRTIO stands for "Virtual I/O" virtio mmio interface
 #define VIRTIO0 0x10001000
 #define VIRTIO0_IRQ 1
 
-// local interrupt controller, which contains the timer.
+// CLINT stands for "Core Local INTerrupt". local interrupt controller, which contains the timer.
 #define CLINT 0x2000000L
+// hart stands for "HARdware Thread"
 #define CLINT_MTIMECMP(hartid) (CLINT + 0x4000 + 8*(hartid))
 #define CLINT_MTIME (CLINT + 0xBFF8) // cycles since boot.
 
-// qemu puts programmable interrupt controller here.
+// PLIC stands for "Platform-Level Interrupt Controller". qemu puts programmable interrupt controller here.
 #define PLIC 0x0c000000L
 #define PLIC_PRIORITY (PLIC + 0x0)
 #define PLIC_PENDING (PLIC + 0x1000)
